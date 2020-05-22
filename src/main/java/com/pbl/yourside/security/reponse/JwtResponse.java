@@ -1,4 +1,4 @@
-package com.pbl.yourside.security.sevices.reponse;
+package com.pbl.yourside.security.reponse;
 
 import org.springframework.security.core.GrantedAuthority;
 

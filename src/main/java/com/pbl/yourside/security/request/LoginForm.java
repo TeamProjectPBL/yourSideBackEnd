@@ -1,15 +1,13 @@
-package com.pbl.yourside.security.sevices.request;
+package com.pbl.yourside.security.request;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Set;
 
-public class SignUpForm {
+public class LoginForm {
+
     @NotBlank
-    @Size(min = 3, max = 50)
+    @Size(min=3, max = 60)
     private String username;
-
-    private Set<String> role;
 
     @NotBlank
     @Size(min = 6, max = 40)
@@ -21,14 +19,6 @@ public class SignUpForm {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public Set<String> getRole() {
-        return role;
-    }
-
-    public void setRole(Set<String> role) {
-        this.role = role;
     }
 
     public String getPassword() {

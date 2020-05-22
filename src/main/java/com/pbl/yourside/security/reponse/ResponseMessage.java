@@ -1,4 +1,4 @@
-package com.pbl.yourside.security.sevices.reponse;
+package com.pbl.yourside.security.reponse;
 
 public class ResponseMessage {
     private String message;

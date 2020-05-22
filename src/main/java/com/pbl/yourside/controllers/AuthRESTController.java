@@ -3,10 +3,10 @@ package com.pbl.yourside.controllers;
 import com.pbl.yourside.entities.Role;
 import com.pbl.yourside.entities.RoleName;
 import com.pbl.yourside.entities.User;
-import com.pbl.yourside.security.sevices.reponse.JwtResponse;
-import com.pbl.yourside.security.sevices.reponse.ResponseMessage;
-import com.pbl.yourside.security.sevices.request.LoginForm;
-import com.pbl.yourside.security.sevices.request.SignUpForm;
+import com.pbl.yourside.security.reponse.JwtResponse;
+import com.pbl.yourside.security.reponse.ResponseMessage;
+import com.pbl.yourside.security.request.LoginForm;
+import com.pbl.yourside.security.request.SignUpForm;
 import com.pbl.yourside.repositories.RoleRepository;
 import com.pbl.yourside.repositories.UserRepository;
 import com.pbl.yourside.security.sevices.jwt.JwtProvider;
@@ -26,7 +26,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @RestController
-//@CrossOrigin(origins = "http://localhost:4200"
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/auth")
 public class AuthRESTController {
 
