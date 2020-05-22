@@ -7,6 +7,7 @@ import java.io.Serializable;
 //@Table(name = "Reports")
 public class Report implements Serializable {
 
+    @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
 
