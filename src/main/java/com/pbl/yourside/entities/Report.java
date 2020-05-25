@@ -1,44 +1,103 @@
 package com.pbl.yourside.entities;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-//@Table(name = "Reports")
 public class Report implements Serializable {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    //@Column(name = "Teacher ID")
     private long tId;
 
-    //@Column(name = "Student ID")
     private long sId;
 
-    //@Column(name = "Status")
-    private enum status {
-        UNREAD, READ, PENDING, RESOLVED, UNRESOLVED
-    }
+    private String role;
 
-    //@Column(name = "Commitment")
+    private String perp;
+
+    private String victim;
+
+    private String type;
+
+    private String description;
+
+    private Status status;
+
     private int commit;
 
-    //@Column(name = "Resolution")
     private int resolution;
 
-    //@Column(name = "Contact")
     private int contact;
 
-    //@Column(name = "Speed")
     private int speed;
 
-    //@Column(name = "Date Opened")
+    private String comments;
+
     private String opened;
 
-    //@Column(name = "Date Closed")
     private String closed;
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getPerp() {
+        return perp;
+    }
+
+    public void setPerp(String perp) {
+        this.perp = perp;
+    }
+
+    public String getVictim() {
+        return victim;
+    }
+
+    public void setVictim(String victim) {
+        this.victim = victim;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String desc) {
+        this.description = desc;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
 
     public long getId() {
         return id;
