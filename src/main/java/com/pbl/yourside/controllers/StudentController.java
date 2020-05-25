@@ -30,7 +30,7 @@ public class StudentController {
     @GetMapping("/{id}")
     public Student findById(@PathVariable("id") long id) {
         Student student = studentRepo.findById(id);
-        if (student==null) {
+        if (student == null) {
             System.out.println("Student not found");
             return null;
         }
@@ -52,7 +52,7 @@ public class StudentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Student> deleteStudent(@PathParam("id") long id) {
         Student student = studentRepo.findById(id);
-        if (student==null) {
+        if (student == null) {
             System.out.println("Student not found");
             return null;
         }
@@ -63,7 +63,7 @@ public class StudentController {
     @PutMapping
     public ResponseEntity<Student> replaceStudents(@RequestBody List<Student> newStudents) {
         studentRepo.deleteAll();
-        for (Student student:newStudents) {
+        for (Student student : newStudents) {
             studentRepo.save(student);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

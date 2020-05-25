@@ -22,13 +22,10 @@ public class ReportController {
         this.reportRepo = reportRepo;
     }
 
-    @GetMapping
-    public List<Report> findAllReports() {return reportRepo.findAll();}
-
     @GetMapping("/{id}")
     public Report findById(@PathVariable("id") long id) {
         Report report = reportRepo.findById(id);
-        if (report==null) {
+        if (report == null) {
             System.out.println("Report not found");
             return null;
         }
@@ -36,15 +33,19 @@ public class ReportController {
     }
 
     @GetMapping
-    public List<Report> findByTeacher(@RequestParam(name="tid") long tId) {
-        return reportRepo.findByTeacher(tId);
+    public List<Report> findReports(@RequestParam(name = "id", required=false) Long id,
+                                    @RequestParam(name = "flag", required=false) String flag) {
+        if (flag != null) {
+            if (flag.equalsIgnoreCase("teacher")) {
+                return reportRepo.findBytId(id);
+            } else if (flag.equalsIgnoreCase("student")) {
+                return reportRepo.findBysId(id);
+            }
+        }
+        return reportRepo.findAll();
     }
 
-    @GetMapping
-    public List<Report> findByStudent(@RequestParam(name="sid") long sId) {
-        return reportRepo.findByStudent(sId);
-    }
-    
+
     @PostMapping
     public ResponseEntity<Report> addReport(@RequestBody Report report) {
         reportRepo.save(report);
@@ -60,7 +61,7 @@ public class ReportController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Report> deleteReport(@PathParam("id") long id) {
         Report report = reportRepo.findById(id);
-        if (report==null) {
+        if (report == null) {
             System.out.println("Report not found");
             return null;
         }
@@ -71,7 +72,7 @@ public class ReportController {
     @PutMapping
     public ResponseEntity<Report> replaceReports(@RequestBody List<Report> newReports) {
         reportRepo.deleteAll();
-        for (Report report:newReports) {
+        for (Report report : newReports) {
             reportRepo.save(report);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

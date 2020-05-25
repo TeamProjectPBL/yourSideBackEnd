@@ -7,9 +7,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ReportRepository extends JpaRepository<Report,Long> {
-    List<Report> findByTeacher(long tId);
-    List<Report> findByStudent(long sId);
+public interface ReportRepository extends JpaRepository<Report, Long> {
+    List<Report> findBytId(long tId);
+
+    List<Report> findBysId(long sId);
+
     List<Report> findAll();
+
     Report findById(long id);
 }

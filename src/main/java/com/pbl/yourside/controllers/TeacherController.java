@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/restApi/students")
+@RequestMapping("/restApi/teachers")
 public class TeacherController {
     @Autowired
     private TeacherRepository teacherRepo;
@@ -30,7 +30,7 @@ public class TeacherController {
     @GetMapping("/{id}")
     public Teacher findById(@PathParam("id") long id) {
         Teacher teacher = teacherRepo.findById(id);
-        if (teacher==null) {
+        if (teacher == null) {
             System.out.println("Teacher not found");
             return null;
         }
@@ -52,7 +52,7 @@ public class TeacherController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Teacher> deleteTeacher(@PathParam("id") long id) {
         Teacher teacher = teacherRepo.findById(id);
-        if (teacher==null) {
+        if (teacher == null) {
             System.out.println("Teacher not found");
             return null;
         }
@@ -63,7 +63,7 @@ public class TeacherController {
     @PutMapping
     public ResponseEntity<Teacher> replaceTeachers(@RequestBody List<Teacher> newTeachers) {
         teacherRepo.deleteAll();
-        for (Teacher teacher:newTeachers) {
+        for (Teacher teacher : newTeachers) {
             teacherRepo.save(teacher);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
