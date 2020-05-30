@@ -1,5 +1,6 @@
 package com.pbl.yourside.controllers;
 
+import com.pbl.yourside.entities.Report;
 import com.pbl.yourside.entities.Role;
 import com.pbl.yourside.entities.RoleName;
 import com.pbl.yourside.entities.User;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -47,6 +49,16 @@ public class AuthRESTController {
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtProvider = jwtProvider;
+    }
+
+    @GetMapping("/{username}")
+    public Optional<User> findById(@PathVariable("username") String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        if (user == null) {
+            System.out.println("Report not found");
+            return null;
+        }
+        return user;
     }
 
     @PostMapping("/signin")
