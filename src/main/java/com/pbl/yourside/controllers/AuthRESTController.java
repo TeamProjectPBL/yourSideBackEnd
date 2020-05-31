@@ -54,10 +54,10 @@ public class AuthRESTController {
     @GetMapping("/{username}")
     public Optional<User> findById(@PathVariable("username") String username) {
         Optional<User> user = userRepository.findByUsername(username);
-        if (user == null) {
-            System.out.println("Report not found");
-            return null;
-        }
+//        if (user == null) {
+//            System.out.println("Report not found");
+//            return null;
+//        }
         return user;
     }
 

@@ -1,6 +1,7 @@
 package com.pbl.yourside.controllers;
 
 import com.pbl.yourside.entities.Report;
+import com.pbl.yourside.entities.Status;
 import com.pbl.yourside.repositories.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,16 +35,28 @@ public class ReportController {
 
     @GetMapping
     public List<Report> findReports(@RequestParam(name = "id", required=false) Long id,
-                                    @RequestParam(name = "flag", required=false) String flag) {
+                                    @RequestParam(name = "flag", required=false) String flag,
+                                    @RequestParam(name = "resolved", required=false) boolean resolved) {
         if (flag != null) {
             if (flag.equalsIgnoreCase("teacher")) {
-                return reportRepo.findBytId(id);
+                if (resolved) {
+                    return reportRepo.findByStatusAndTId(Status.RESOLVED, id);
+                }
+                return reportRepo.findByNotResolvedStatusAndTId(Status.RESOLVED, id);
             } else if (flag.equalsIgnoreCase("student")) {
-                return reportRepo.findBysId(id);
+                if (resolved) {
+                    return reportRepo.findByStatusAndSId(Status.RESOLVED, id);
+                }
+                return reportRepo.findByNotResolvedStatusAndSId(Status.RESOLVED, id);
             }
         }
         return reportRepo.findAll();
     }
+
+//    @GetMapping(value = "/status")
+//    public List<Report> getByStatus(@RequestParam(name = "status", required=false) Status status) {
+//        return reportRepo.findByStatus(status);
+//    }
 
 
     @PostMapping
