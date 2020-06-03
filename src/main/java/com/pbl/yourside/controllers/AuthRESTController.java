@@ -73,6 +73,9 @@ public class AuthRESTController {
         User user = new User();
         user.setUsername(signUpRequest.getUsername());
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+        user.setActive(true);
+        user.setLastName(signUpRequest.getLastName());
+        user.setFirstName(signUpRequest.getFirstName());
         String role = signUpRequest.getRole();
 
         switch (role) {
