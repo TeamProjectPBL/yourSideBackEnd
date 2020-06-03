@@ -2,7 +2,6 @@ package com.pbl.yourside.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 public class Report implements Serializable {
@@ -42,6 +41,8 @@ public class Report implements Serializable {
     private String opened;
 
     private String closed;
+
+    private boolean reviewed = false;
 
     public Status getStatus() {
         return status;
@@ -171,5 +172,12 @@ public class Report implements Serializable {
         this.student = student;
     }
 
+    public boolean isReviewed() {
+        return reviewed;
     }
+
+    public void setReviewed(boolean wasReviewed) {
+        this.reviewed = wasReviewed;
+    }
+}
 
