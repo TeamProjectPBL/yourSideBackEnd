@@ -1,8 +1,8 @@
 package com.pbl.yourside.controllers;
 
-import com.pbl.yourside.entities.Report;
-import com.pbl.yourside.entities.Status;
+import com.pbl.yourside.entities.*;
 import com.pbl.yourside.repositories.ReportRepository;
+import com.pbl.yourside.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,13 +10,16 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/restApi/reports")
 public class ReportController {
-    @Autowired
+
     private ReportRepository reportRepo;
+
+    private UserRepository userRepository;
 
     @Autowired
     public ReportController(ReportRepository reportRepo) {
@@ -34,33 +37,28 @@ public class ReportController {
     }
 
     @GetMapping
-    public List<Report> findReports(@RequestParam(name = "id", required=false) Long id,
-                                    @RequestParam(name = "flag", required=false) String flag,
-                                    @RequestParam(name = "resolved", required=false) boolean resolved) {
-        if (flag != null) {
-            if (flag.equalsIgnoreCase("teacher")) {
-                if (resolved) {
-                    return reportRepo.findByStatusAndTId(Status.RESOLVED, id);
-                }
-                return reportRepo.findByNotResolvedStatusAndTId(Status.RESOLVED, id);
-            } else if (flag.equalsIgnoreCase("student")) {
-                if (resolved) {
-                    return reportRepo.findByStatusAndSId(Status.RESOLVED, id);
-                }
-                return reportRepo.findByNotResolvedStatusAndSId(Status.RESOLVED, id);
+    public List<Report> findReports(@RequestParam(name = "id", required = false) Long id,
+                                    @RequestParam(name = "flag", required = false) String flag,
+                                    @RequestParam(name = "resolved", required = false) boolean resolved) {
+        if (id != null) {
+            List<Report> reports = reportRepo.findAll().stream().filter(report -> report.getTeacher().getId() == id || report.getStudent().getId() == id).collect(Collectors.toList());
+            if (resolved) {
+                reports = reports.stream().filter(report -> report.getStatus() == Status.RESOLVED).collect(Collectors.toList());
+            } else {
+                reports = reports.stream().filter(report -> report.getStatus() != Status.RESOLVED).collect(Collectors.toList());
             }
+            return reports;
         }
         return reportRepo.findAll();
     }
 
-//    @GetMapping(value = "/status")
-//    public List<Report> getByStatus(@RequestParam(name = "status", required=false) Status status) {
-//        return reportRepo.findByStatus(status);
-//    }
-
 
     @PostMapping
     public ResponseEntity<Report> addReport(@RequestBody Report report) {
+        report.setStatus(Status.UNREAD);
+
+        //TODO: should all the ratings be initialized here?
+
         reportRepo.save(report);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

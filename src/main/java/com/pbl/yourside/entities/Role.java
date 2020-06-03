@@ -15,7 +15,6 @@ public class Role {
     @NaturalId
     private RoleName name;
 
-
     public Long getId() {
         return id;
     }

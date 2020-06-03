@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,8 +23,17 @@ public class User {
     @Size(min=6, max = 100)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles = new HashSet<>();
+    private String firstName;
+
+    private String lastName;
+
+    private boolean active;
+
+    @OneToMany
+    private List<Report> reports;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    private Role role;
 
     public long getId() {
         return id;
@@ -49,11 +59,45 @@ public class User {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public List<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(List<Report> reports) {
+        this.reports = reports;
     }
 }

@@ -1,9 +1,6 @@
 package com.pbl.yourside.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -13,9 +10,11 @@ public class Report implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private long tId;
+    @ManyToOne
+    private User teacher;
 
-    private long sId;
+    @ManyToOne
+    private User student;
 
     private String role;
 
@@ -42,6 +41,8 @@ public class Report implements Serializable {
     private String opened;
 
     private String closed;
+
+    private boolean reviewed = false;
 
     public Status getStatus() {
         return status;
@@ -107,22 +108,6 @@ public class Report implements Serializable {
         this.id = id;
     }
 
-    public long gettId() {
-        return tId;
-    }
-
-    public void settId(long tId) {
-        this.tId = tId;
-    }
-
-    public long getsId() {
-        return sId;
-    }
-
-    public void setsId(long sId) {
-        this.sId = sId;
-    }
-
     public int getCommit() {
         return commit;
     }
@@ -170,4 +155,29 @@ public class Report implements Serializable {
     public void setClosed(String closed) {
         this.closed = closed;
     }
+
+    public User getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(User teacher) {
+        this.teacher = teacher;
+    }
+
+    public User getStudent() {
+        return student;
+    }
+
+    public void setStudent(User student) {
+        this.student = student;
+    }
+
+    public boolean isReviewed() {
+        return reviewed;
+    }
+
+    public void setReviewed(boolean wasReviewed) {
+        this.reviewed = wasReviewed;
+    }
 }
+
