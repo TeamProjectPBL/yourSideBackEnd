@@ -2,6 +2,7 @@ package com.pbl.yourside.controllers;
 
 import com.pbl.yourside.entities.*;
 import com.pbl.yourside.repositories.ReportRepository;
+import com.pbl.yourside.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,8 @@ import java.util.stream.Collectors;
 public class ReportController {
 
     private ReportRepository reportRepo;
+
+    private UserRepository userRepository;
 
     @Autowired
     public ReportController(ReportRepository reportRepo) {
@@ -37,21 +40,12 @@ public class ReportController {
     public List<Report> findReports(@RequestParam(name = "id", required = false) Long id,
                                     @RequestParam(name = "flag", required = false) String flag,
                                     @RequestParam(name = "resolved", required = false) boolean resolved) {
-        if (flag != null) {
-            List<Report> reports = reportRepo.findAll();
+        if (id != null) {
+            List<Report> reports = reportRepo.findAll().stream().filter(report -> report.getTeacher().getId() == id || report.getStudent().getId() == id).collect(Collectors.toList());
             if (resolved) {
                 reports = reports.stream().filter(report -> report.getStatus() == Status.RESOLVED).collect(Collectors.toList());
             } else {
                 reports = reports.stream().filter(report -> report.getStatus() != Status.RESOLVED).collect(Collectors.toList());
-            }
-            if (flag.equalsIgnoreCase("teacher")) {
-                reports = reports.stream().filter(report ->
-                        report.getUsers().stream().map(User::getRole).map(Role::getName).collect(Collectors.toList()).contains(RoleName.ROLE_TEACHER)
-                ).collect(Collectors.toList());
-            } else {
-                reports = reports.stream().filter(report ->
-                        report.getUsers().stream().map(User::getRole).map(Role::getName).collect(Collectors.toList()).contains(RoleName.ROLE_STUDENT)
-                ).collect(Collectors.toList());
             }
             return reports;
         }

@@ -23,9 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -57,8 +55,6 @@ public class AuthRESTController {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
-        System.out.println(loginRequest.getPassword());
-        System.out.println(loginRequest.getUsername());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = jwtProvider.generateJwtToken(authentication);

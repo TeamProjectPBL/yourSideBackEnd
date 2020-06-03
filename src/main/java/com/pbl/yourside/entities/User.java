@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,8 +29,8 @@ public class User {
 
     private boolean active;
 
-    @ManyToOne
-    private Report report;
+    @OneToMany
+    private List<Report> reports;
 
     @OneToOne(fetch = FetchType.EAGER)
     private Role role;
@@ -83,13 +84,6 @@ public class User {
         this.active = active;
     }
 
-    public Report getReport() {
-        return report;
-    }
-
-    public void setReport(Report report) {
-        this.report = report;
-    }
 
     public Role getRole() {
         return role;
@@ -97,5 +91,13 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(List<Report> reports) {
+        this.reports = reports;
     }
 }

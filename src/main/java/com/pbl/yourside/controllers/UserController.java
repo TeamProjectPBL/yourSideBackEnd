@@ -35,7 +35,6 @@ public class UserController {
         return userRepository.findByUsername(userLogin);
     }
 
-
     @GetMapping
     public List<User> findAll(){
         return userRepository.findAll();

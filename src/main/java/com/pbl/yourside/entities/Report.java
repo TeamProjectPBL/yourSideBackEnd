@@ -11,8 +11,11 @@ public class Report implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @OneToMany
-    private List<User> users;
+    @ManyToOne
+    private User teacher;
+
+    @ManyToOne
+    private User student;
 
     private String role;
 
@@ -152,11 +155,21 @@ public class Report implements Serializable {
         this.closed = closed;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public User getTeacher() {
+        return teacher;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setTeacher(User teacher) {
+        this.teacher = teacher;
     }
-}
+
+    public User getStudent() {
+        return student;
+    }
+
+    public void setStudent(User student) {
+        this.student = student;
+    }
+
+    }
+
