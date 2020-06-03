@@ -40,16 +40,17 @@ public class UserController {
         return userRepository.findByUsername(userLogin);
     }
 
+
     @GetMapping("/getTeachersProfiles")
-    public List<TeacherProfile> getTeachersProfiles(){
+    public List<TeacherProfile> getTeachersProfiles() {
         List<User> teachers = userRepository.findAll().stream().filter(user -> user.getRole().getName() == RoleName.ROLE_TEACHER).collect(Collectors.toList());
         List<TeacherProfile> teacherProfiles = new LinkedList<>();
-        for(User teacher: teachers) {
+        for (User teacher : teachers) {
             List<Report> reports = teacher.getReports().stream().filter(Report::isReviewed).collect(Collectors.toList());
             TeacherProfile profile = new TeacherProfile();
             profile.setSurname(teacher.getLastName());
             profile.setName(teacher.getFirstName());
-            if(reports.isEmpty()){
+            if (reports.isEmpty()) {
                 teacherProfiles.add(profile);
                 continue;
             }
@@ -60,6 +61,12 @@ public class UserController {
             teacherProfiles.add(profile);
         }
         return teacherProfiles;
+    }
+
+    @GetMapping("/getAllTeachers")
+    private List<User> getAllTeachers() {
+        return userRepository.findAll().stream().filter(user -> user.getRole().getName() == RoleName.ROLE_TEACHER).collect(Collectors.toList());
+
     }
 
     @GetMapping

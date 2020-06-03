@@ -15,6 +15,30 @@ public class SignUpForm {
     @Size(min = 6, max = 40)
     private String password;
 
+    @NotBlank
+    private String firstName;
+
+    @NotBlank
+    private String lastName;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+//    @NotBlank
+//    private Boolean active;
+
     public String getUsername() {
         return username;
     }

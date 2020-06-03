@@ -55,6 +55,10 @@ public class ReportController {
 
     @PostMapping
     public ResponseEntity<Report> addReport(@RequestBody Report report) {
+        report.setStatus(Status.UNREAD);
+
+        //TODO: should all the ratings be initialized here?
+
         reportRepo.save(report);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
