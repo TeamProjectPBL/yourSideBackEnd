@@ -22,8 +22,17 @@ public class User {
     @Size(min=6, max = 100)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles = new HashSet<>();
+    private String firstName;
+
+    private String lastName;
+
+    private boolean active;
+
+    @ManyToOne
+    private Report report;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    private Role role;
 
     public long getId() {
         return id;
@@ -49,11 +58,44 @@ public class User {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Report getReport() {
+        return report;
+    }
+
+    public void setReport(Report report) {
+        this.report = report;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

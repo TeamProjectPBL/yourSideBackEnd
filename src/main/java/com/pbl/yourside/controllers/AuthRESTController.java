@@ -51,20 +51,14 @@ public class AuthRESTController {
         this.jwtProvider = jwtProvider;
     }
 
-    @GetMapping("/{username}")
-    public Optional<User> findById(@PathVariable("username") String username) {
-        Optional<User> user = userRepository.findByUsername(username);
-//        if (user == null) {
-//            System.out.println("Report not found");
-//            return null;
-//        }
-        return user;
-    }
-
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+
+        System.out.println(loginRequest.getPassword());
+        System.out.println(loginRequest.getUsername());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = jwtProvider.generateJwtToken(authentication);
@@ -83,36 +77,33 @@ public class AuthRESTController {
         User user = new User();
         user.setUsername(signUpRequest.getUsername());
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
-        Set<String> strRoles = signUpRequest.getRole();
-        Set<Role> roles = new HashSet<>();
-        strRoles.forEach(role -> {
-            switch (role) {
-                case "admin":
-                    Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Fail -> Cause: Admin Role not found."));
-                    roles.add(adminRole);
-                    break;
-                case "student":
-                    Role studentRole = roleRepository.findByName(RoleName.ROLE_STUDENT)
-                            .orElseThrow(() -> new RuntimeException("Fail -> Cause: Student Role not found."));
-                    roles.add(studentRole);
-                    break;
-                case "teacher":
-                    Role teacherRole = roleRepository.findByName(RoleName.ROLE_TEACHER)
-                            .orElseThrow(() -> new RuntimeException("Fail -> Cause: Teacher Role not found."));
-                    roles.add(teacherRole);
-                    break;
-                case "school_admin":
-                    Role schoolAdmin = roleRepository.findByName(RoleName.ROLE_SCHOOL_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Fail -> Cause: School Admin Role not found."));
-                    roles.add(schoolAdmin);
-                    break;
-            }
-        });
+        String role = signUpRequest.getRole();
 
-        user.setRoles(roles);
+        switch (role) {
+            case "admin":
+                Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                        .orElseThrow(() -> new RuntimeException("Fail -> Cause: Admin Role not found."));
+                user.setRole(adminRole);
+                break;
+            case "student":
+                Role studentRole = roleRepository.findByName(RoleName.ROLE_STUDENT)
+                        .orElseThrow(() -> new RuntimeException("Fail -> Cause: Student Role not found."));
+                user.setRole(studentRole);
+                break;
+            case "teacher":
+                Role teacherRole = roleRepository.findByName(RoleName.ROLE_TEACHER)
+                        .orElseThrow(() -> new RuntimeException("Fail -> Cause: Teacher Role not found."));
+                user.setRole(teacherRole);
+                break;
+            case "school_admin":
+                Role schoolAdmin = roleRepository.findByName(RoleName.ROLE_SCHOOL_ADMIN)
+                        .orElseThrow(() -> new RuntimeException("Fail -> Cause: School Admin Role not found."));
+                user.setRole(schoolAdmin);
+                break;
+        }
+
         userRepository.save(user);
         return new ResponseEntity<>(new ResponseMessage("User registered successfully."), HttpStatus.OK);
-
     }
+
 }
