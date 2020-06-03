@@ -1,5 +1,7 @@
 package com.pbl.yourside.controllers;
 
+import com.pbl.yourside.entities.Report;
+import com.pbl.yourside.entities.RoleName;
 import com.pbl.yourside.entities.User;
 import com.pbl.yourside.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -33,6 +36,11 @@ public class UserController {
     private User getCurrentUser(){
         String userLogin = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByUsername(userLogin);
+    }
+
+    @GetMapping("/getAllTeachers")
+    private List<User> getAllTeachers() {
+        return userRepository.findAll().stream().filter(user -> user.getRole().getName() == RoleName.ROLE_TEACHER).collect(Collectors.toList());
     }
 
     @GetMapping
