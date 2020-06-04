@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -89,11 +90,22 @@ public class ReportController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Report> updateReport(@RequestBody Report report, @PathParam("id") long id) {
-        report.setId(id);
-        reportRepo.save(report);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
+    public ResponseEntity<Report> partialUpdate(@RequestBody Map<String, Object> updates, @PathVariable("id") long id) {
+        Report report = this.reportRepo.findById(id);
+        if (report == null) {
+            System.out.println("Contact not found");
+            return new ResponseEntity<Report>(HttpStatus.NOT_FOUND);
+        }
+        partialUpdate(report, updates);
+        return new ResponseEntity<Report>(HttpStatus.NO_CONTENT);
+    }
+
+    private void partialUpdate(Report report, Map<String, Object> updates) {
+        if (updates.containsKey("status")) {
+            report.setStatus(Status.valueOf((String) updates.get("status")));
+        }
+        this.reportRepo.save(report);
     }
 
 }

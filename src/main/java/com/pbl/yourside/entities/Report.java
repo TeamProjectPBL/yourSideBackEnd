@@ -26,6 +26,8 @@ public class Report implements Serializable {
 
     private String description;
 
+    private boolean anonymous;
+
     private Status status;
 
     private int commit;
@@ -55,6 +57,10 @@ public class Report implements Serializable {
     public String getRole() {
         return role;
     }
+
+    public boolean getAnonymous() { return anonymous;}
+
+    public void setAnonymous(boolean anonymous) {this.anonymous = anonymous; }
 
     public void setRole(String role) {
         this.role = role;
