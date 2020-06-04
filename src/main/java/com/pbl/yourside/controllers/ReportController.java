@@ -94,7 +94,7 @@ public class ReportController {
     public ResponseEntity<Report> partialUpdate(@RequestBody Map<String, Object> updates, @PathVariable("id") long id) {
         Report report = this.reportRepo.findById(id);
         if (report == null) {
-            System.out.println("Contact not found");
+            System.out.println("Report not found");
             return new ResponseEntity<Report>(HttpStatus.NOT_FOUND);
         }
         partialUpdate(report, updates);
@@ -104,6 +104,21 @@ public class ReportController {
     private void partialUpdate(Report report, Map<String, Object> updates) {
         if (updates.containsKey("status")) {
             report.setStatus(Status.valueOf((String) updates.get("status")));
+        }
+        if (updates.containsKey("commit")) {
+            report.setCommit((int) updates.get("commit"));
+        }
+        if (updates.containsKey("resolution")) {
+            report.setResolution((int) updates.get("resolution"));
+        }
+        if (updates.containsKey("contact")) {
+            report.setContact((int) updates.get("contact"));
+        }
+        if (updates.containsKey("speed")) {
+            report.setSpeed((int) updates.get("speed"));
+        }
+        if (updates.containsKey("comments")) {
+            report.setComments((String) updates.get("comments"));
         }
         this.reportRepo.save(report);
     }
