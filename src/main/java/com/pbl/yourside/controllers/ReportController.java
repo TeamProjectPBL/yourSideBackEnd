@@ -98,6 +98,8 @@ public class ReportController {
             return new ResponseEntity<Report>(HttpStatus.NOT_FOUND);
         }
         partialUpdate(report, updates);
+        System.out.println(updates);
+//        report.setStatus(Status.RATED);
         return new ResponseEntity<Report>(HttpStatus.NO_CONTENT);
     }
 
