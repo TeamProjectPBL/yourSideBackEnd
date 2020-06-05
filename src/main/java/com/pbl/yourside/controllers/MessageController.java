@@ -32,7 +32,7 @@ public class MessageController {
     }
 
     @GetMapping
-    public List<Message> findMessages(@RequestParam(name = "reportid", required = true) Long reportid) {
+    public List<Message> findMessages(@RequestParam(name = "reportid", required = false) Long reportid) {
         System.out.println(reportid);
         if(reportid != null) {
             List<Message> messages = messageRepository.findAll().stream().filter(message -> message.getReport().getId() == reportid).collect(Collectors.toList());
