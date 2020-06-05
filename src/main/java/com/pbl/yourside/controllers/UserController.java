@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/restApi/users")
 public class UserController {
 
