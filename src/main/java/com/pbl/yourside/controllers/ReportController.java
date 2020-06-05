@@ -105,7 +105,26 @@ public class ReportController {
 
     private void partialUpdate(Report report, Map<String, Object> updates) {
         if (updates.containsKey("status")) {
-            report.setStatus(Status.valueOf((String) updates.get("status")));
+//            report.setStatus(Status.valueOf((String) updates.get("status")));
+            String newStatus = (String) updates.get("status");
+//            System.out.println(newStatus);
+            switch(newStatus) {
+                case "RATED":
+                    report.setStatus(Status.RATED);
+                    break;
+                case "INPROGRESS":
+                    report.setStatus(Status.INPROGRESS);
+                    break;
+                case "RESOLVED":
+                    report.setStatus(Status.RESOLVED);
+                    break;
+                case "UNRESOLVABLE":
+                    report.setStatus(Status.UNRESOLVABLE);
+                    break;
+                case "READ":
+                    report.setStatus(Status.READ);
+                    break;
+            }
         }
         if (updates.containsKey("commit")) {
             report.setCommit((int) updates.get("commit"));
