@@ -32,6 +32,9 @@ public class User {
     @OneToMany
     private List<Report> reports;
 
+//    @OneToMany
+//    private List<Message> messages;
+
     @OneToOne(fetch = FetchType.EAGER)
     private Role role;
 

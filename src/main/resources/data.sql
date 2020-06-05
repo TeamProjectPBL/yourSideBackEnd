@@ -6,3 +6,7 @@
 
 
 -- DELETE FROM users;
+-- ALTER TABLE message
+-- DROP column date;
+-- DELETE FROM message;
+-- DROP TABLE message CASCADE

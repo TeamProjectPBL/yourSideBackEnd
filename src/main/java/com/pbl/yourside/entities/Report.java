@@ -2,6 +2,7 @@ package com.pbl.yourside.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 public class Report implements Serializable {
@@ -9,6 +10,21 @@ public class Report implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @OneToMany
+    private List<Message> messages;
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public boolean isAnonymous() {
+        return anonymous;
+    }
 
     @ManyToOne
     private User teacher;
