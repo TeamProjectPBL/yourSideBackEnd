@@ -2,6 +2,7 @@ package com.pbl.yourside.controllers;
 
 import com.pbl.yourside.entities.Report;
 import com.pbl.yourside.entities.RoleName;
+import com.pbl.yourside.entities.Status;
 import com.pbl.yourside.entities.User;
 import com.pbl.yourside.models.TeacherProfile;
 import com.pbl.yourside.repositories.UserRepository;
@@ -46,7 +47,8 @@ public class UserController {
         List<User> teachers = userRepository.findAll().stream().filter(user -> user.getRole().getName() == RoleName.ROLE_TEACHER).collect(Collectors.toList());
         List<TeacherProfile> teacherProfiles = new LinkedList<>();
         for (User teacher : teachers) {
-            List<Report> reports = teacher.getReports().stream().filter(Report::isReviewed).collect(Collectors.toList());
+//            List<Report> reports = teacher.getReports().stream().filter(Report::isReviewed).collect(Collectors.toList());
+            List<Report> reports = teacher.getReports().stream().filter(report -> report.getStatus() == Status.RATED).collect(Collectors.toList());
             TeacherProfile profile = new TeacherProfile();
             profile.setSurname(teacher.getLastName());
             profile.setName(teacher.getFirstName());

@@ -44,9 +44,9 @@ public class ReportController {
         if (id != null) {
             List<Report> reports = reportRepo.findAll().stream().filter(report -> report.getTeacher().getId() == id || report.getStudent().getId() == id).collect(Collectors.toList());
             if (resolved) {
-                reports = reports.stream().filter(report -> report.getStatus() == Status.RESOLVED).collect(Collectors.toList());
+                reports = reports.stream().filter(report -> (report.getStatus() == Status.RESOLVED) || (report.getStatus() == Status.RATED)).collect(Collectors.toList());
             } else {
-                reports = reports.stream().filter(report -> report.getStatus() != Status.RESOLVED).collect(Collectors.toList());
+                reports = reports.stream().filter(report -> (report.getStatus() != Status.RESOLVED) && (report.getStatus() != Status.RATED)).collect(Collectors.toList());
             }
             return reports;
         }
