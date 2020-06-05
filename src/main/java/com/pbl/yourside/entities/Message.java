@@ -54,7 +54,7 @@ public class Message {
         this.report = report;
     }
 
-    public Number getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 

@@ -36,11 +36,11 @@ public class MessageController {
         System.out.println(reportid);
         if(reportid != null) {
             List<Message> messages = messageRepository.findAll().stream().filter(message -> message.getReport().getId() == reportid).collect(Collectors.toList());
-//            List<Report> reports = reportRepo.findAll().stream().filter(report -> report.getTeacher().getId() == id || report.getStudent().getId() == id).collect(Collectors.toList());
+            messages.sort((Message m1, Message m2) -> (int) (m1.getTimestamp() - m2.getTimestamp()));
             System.out.println(messages);
             return messages;
         }
         System.out.println("hello there");
-       return messageRepository.findAll();
+        return messageRepository.findAll();
     }
 }
