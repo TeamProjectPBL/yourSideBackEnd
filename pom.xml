@@ -94,7 +94,7 @@
                     <schemaVersion>V2</schemaVersion>
                     <resourceGroup>YourSide</resourceGroup>
                     <appName>yoursidebackend</appName>
-                    <pricingTier>B1</pricingTier>
+                    <pricingTier>B3</pricingTier>
                     <region>westeurope</region>
                     <runtime>
                         <os>linux</os>

@@ -26,6 +26,7 @@ import javax.validation.Valid;
 
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/auth")
 public class AuthRESTController {
 

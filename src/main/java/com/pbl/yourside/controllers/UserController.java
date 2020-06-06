@@ -5,6 +5,7 @@ import com.pbl.yourside.entities.RoleName;
 import com.pbl.yourside.entities.Status;
 import com.pbl.yourside.entities.User;
 import com.pbl.yourside.models.TeacherProfile;
+import com.pbl.yourside.repositories.ReportRepository;
 import com.pbl.yourside.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,16 +18,21 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/restApi/users")
 public class UserController {
 
     private final UserRepository userRepository;
 
+    private final ReportRepository reportRepository;
+
     @Autowired
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, ReportRepository reportRepository) {
         this.userRepository = userRepository;
+        this.reportRepository = reportRepository;
     }
 
     @GetMapping("/{id}")
@@ -43,18 +49,19 @@ public class UserController {
 
     @GetMapping("/getTeachersProfiles")
     public List<TeacherProfile> getTeachersProfiles() {
-        List<User> teachers = userRepository.findAll().stream().filter(user -> user.getRole().getName() == RoleName.ROLE_TEACHER).collect(Collectors.toList());
+        List<Long> ids = userRepository.findAll().stream().filter(user -> user.getRole().getName() == RoleName.ROLE_TEACHER).map(user -> user.getId()).collect(Collectors.toList());
         List<TeacherProfile> teacherProfiles = new LinkedList<>();
-        for (User teacher : teachers) {
-//            List<Report> reports = teacher.getReports().stream().filter(Report::isReviewed).collect(Collectors.toList());
-            List<Report> reports = teacher.getReports().stream().filter(report -> report.getStatus() == Status.RATED).collect(Collectors.toList());
+        for (long id : ids) {
+//     \
+            List<Report> reports = reportRepository.findAll().stream().filter(report -> report.getStatus() == Status.RATED).filter(report -> report.getTeacher().getId() == id).collect(Collectors.toList());
             TeacherProfile profile = new TeacherProfile();
-            profile.setSurname(teacher.getLastName());
-            profile.setName(teacher.getFirstName());
+            profile.setSurname(userRepository.findById(id).getLastName());
+            profile.setName(userRepository.findById(id).getFirstName());
             if (reports.isEmpty()) {
                 teacherProfiles.add(profile);
                 continue;
             }
+            profile.setReviewed(true);
             profile.setCommit(reports.stream().map(Report::getCommit).reduce(0, Integer::sum));
             profile.setContact(reports.stream().map(Report::getContact).reduce(0, Integer::sum));
             profile.setResolution(reports.stream().map(Report::getResolution).reduce(0, Integer::sum));

@@ -14,16 +14,18 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/restApi/reports")
 public class ReportController {
 
     private ReportRepository reportRepo;
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public ReportController(ReportRepository reportRepo) {
+    public ReportController(ReportRepository reportRepo, UserRepository userRepository) {
         this.reportRepo = reportRepo;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/{id}")
@@ -57,6 +59,7 @@ public class ReportController {
     public ResponseEntity<Report> addReport(@RequestBody Report report) {
         report.setStatus(Status.UNREAD);
 
+        report.setTeacher(userRepository.findById(report.getTeacher().getId()));
         //TODO: should all the ratings be initialized here?
 
         reportRepo.save(report);
@@ -139,6 +142,9 @@ public class ReportController {
         }
         if (updates.containsKey("comments")) {
             report.setComments((String) updates.get("comments"));
+        }
+        if (updates.containsKey("resolved")) {
+            report.setReviewed((Boolean) updates.get("resolved"));
         }
         this.reportRepo.save(report);
     }
