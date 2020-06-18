@@ -1,5 +1,7 @@
 package com.pbl.yourside.configuration;
 
+import com.pbl.yourside.entities.Role;
+import com.pbl.yourside.entities.RoleName;
 import com.pbl.yourside.security.sevices.jwt.JwtAuthEntryPoint;
 import com.pbl.yourside.security.sevices.jwt.JwtAuthTokenFilter;
 import com.pbl.yourside.security.sevices.user.UserDetailsServiceImpl;
@@ -55,9 +57,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable().
                 authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
-                .antMatchers("/restApi/messages**").permitAll()
-                .antMatchers("/restApi/reports**").permitAll()
-                .antMatchers("/restApi/users**").permitAll()
+                .antMatchers("/restApi/messages**").hasAnyRole("ROLE_TEACHER", "ROLE_STUDENT")
+                .antMatchers("/restApi/reports**").hasAnyRole("ROLE_TEACHER", "ROLE_STUDENT")
+                .antMatchers("/restApi/users**").hasAnyRole("ROLE_TEACHER", "ROLE_STUDENT")
                 .anyRequest().permitAll()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
