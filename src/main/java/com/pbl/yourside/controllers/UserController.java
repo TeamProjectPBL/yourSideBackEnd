@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/restApi/users")
 public class UserController {
 
@@ -52,7 +52,6 @@ public class UserController {
         List<Long> ids = userRepository.findAll().stream().filter(user -> user.getRole().getName() == RoleName.ROLE_TEACHER).map(user -> user.getId()).collect(Collectors.toList());
         List<TeacherProfile> teacherProfiles = new LinkedList<>();
         for (long id : ids) {
-//     \
             List<Report> reports = reportRepository.findAll().stream().filter(report -> report.getStatus() == Status.RATED).filter(report -> report.getTeacher().getId() == id).collect(Collectors.toList());
             TeacherProfile profile = new TeacherProfile();
             profile.setSurname(userRepository.findById(id).getLastName());
@@ -62,10 +61,10 @@ public class UserController {
                 continue;
             }
             profile.setReviewed(true);
-            profile.setCommit(reports.stream().map(Report::getCommit).reduce(0, Integer::sum));
-            profile.setContact(reports.stream().map(Report::getContact).reduce(0, Integer::sum));
-            profile.setResolution(reports.stream().map(Report::getResolution).reduce(0, Integer::sum));
-            profile.setSpeed(reports.stream().map(Report::getSpeed).reduce(0, Integer::sum));
+            profile.setCommit((double)reports.stream().map(Report::getCommit).reduce(0, Integer::sum) / reports.size());
+            profile.setContact((double)reports.stream().map(Report::getContact).reduce(0, Integer::sum) / reports.size());
+            profile.setResolution((double)reports.stream().map(Report::getResolution).reduce(0, Integer::sum) / reports.size() );
+            profile.setSpeed((double)reports.stream().map(Report::getSpeed).reduce(0, Integer::sum) / reports.size());
             teacherProfiles.add(profile);
         }
         return teacherProfiles;

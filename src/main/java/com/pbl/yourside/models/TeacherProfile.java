@@ -7,43 +7,43 @@ public class TeacherProfile {
 
 
     private  boolean reviewed = false;
-    private int commit;
+    private double commit;
 
-    private int resolution;
+    private double resolution;
 
-    private int contact;
+    private double contact;
 
-    private int speed;
+    private double speed;
 
-    public int getCommit() {
+    public double getCommit() {
         return commit;
     }
 
-    public void setCommit(int commit) {
+    public void setCommit(double commit) {
         this.commit = commit;
     }
 
-    public int getResolution() {
+    public double getResolution() {
         return resolution;
     }
 
-    public void setResolution(int resolution) {
+    public void setResolution(double resolution) {
         this.resolution = resolution;
     }
 
-    public int getContact() {
+    public double getContact() {
         return contact;
     }
 
-    public void setContact(int contact) {
+    public void setContact(double contact) {
         this.contact = contact;
     }
 
-    public int getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 
-    public void setSpeed(int speed) {
+    public void setSpeed(double speed) {
         this.speed = speed;
     }
 
